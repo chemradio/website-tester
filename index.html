@@ -64,10 +64,10 @@
                 </div>
 
                 <div class="collapse" id="collapseVideoAuto">
-                    <form class="card-body">
+                    <form class="card-body" action="/react/add_order" method="post" enctype="multipart/form-data">
                         <div class="">
-                            <label for="linkVideoAuto" class="form-label h5">Ссылка:</label>
-                            <input type="text" class="form-control" id="linkVideoAuto"
+                            <label for="videoAutoLink" class="form-label h5">Ссылка:</label>
+                            <input type="text" class="form-control" id="videoAutoLink" name="videoAutoLink"
                                 placeholder="https://currenttime.tv">
                         </div>
 
@@ -77,38 +77,43 @@
                             <!-- чекбокс цитаты -->
                             <input type="checkbox" value="1" class="form-check-input" id="videoAutoQuoteEnabled"
                                 data-bs-toggle="collapse" data-bs-target="#collapseQuoteVideoAuto" aria-expanded="false"
-                                aria-controls="collapseQuoteVideoAuto">
+                                aria-controls="collapseQuoteVideoAuto" name="quoteEnabled">
                             <label class="form-check-label h5" for="videoAutoQuoteEnabled">Цитата</label>
 
                             <div class="collapse" id="collapseQuoteVideoAuto">
                                 <!-- текст цитаты -->
                                 <label for="videoAutoQuoteTextText" class="form-label">Текст цитаты:</label>
-                                <textarea rows="8" type="text" class="form-control" id="videoAutoQuoteTextText"
-                                    placeholder='Мы – телеканал "Настоящее Время". Мы делаем яркие видео, рассказываем о важных новостях и злободневных темах, готовим интересные репортажи и передачи – смотрите нас на спутнике, в кабельных сетях и в интернете. Каждый день мы присылаем дайджест всего, что нужно знать, одним письмом, а также превращаем цифры в понятные истории.'></textarea>
+
+                                <input name="quoteTextText" rows="8" type="text" class="form-control"
+                                    id="videoAutoQuoteTextText"
+                                    placeholder='Мы – телеканал "Настоящее Время". Мы делаем яркие видео, рассказываем о важных новостях и злободневных темах, готовим интересные репортажи и передачи – смотрите нас на спутнике, в кабельных сетях и в интернете. Каждый день мы присылаем дайджест всего, что нужно знать, одним письмом, а также превращаем цифры в понятные истории.'></input>
                                 <br>
                                 <!-- автор цитаты -->
                                 <label for="videoAutoQuoteAuthorText" class="form-label">Автор цитаты:</label>
-                                <input type="text" class="form-control" id="videoAutoQuoteAuthorText"
+                                <input name="quoteAuthorText" type="text" class="form-control"
+                                    id="videoAutoQuoteAuthorText"
                                     placeholder="Павел Буторин, директор Настоящего Времени">
                                 <!-- конец цитаты -->
                             </div>
                         </div>
 
                         <div class="py-3">
-                            <input type="checkbox" class="form-check-input" id="videoAutoAudioEnabled"
-                                data-bs-toggle="collapse" data-bs-target="#collapseAudioVideoAuto" aria-expanded="false"
+                            <input name="audioEnabled" type="checkbox" class="form-check-input"
+                                id="videoAutoAudioEnabled" data-bs-toggle="collapse"
+                                data-bs-target="#collapseAudioVideoAuto" aria-expanded="false"
                                 aria-controls="collapseAudioVideoAuto">
                             <label class="form-check-label h5" for="videoAutoAudioEnabled">Аудио</label>
 
                             <div class="collapse" id="collapseAudioVideoAuto">
                                 <!-- аудио файл -->
                                 <label for="videoAutoAudioFile" class="form-label">Аудио-файл (mp3 или wav):</label>
-                                <input type="file" class="form-control" id="videoAutoAudioFile"
+                                <input name="audioFile" type="file" class="form-control" id="videoAutoAudioFile"
                                     placeholder="Марк Цицерон, политический деятель">
                             </div>
                         </div>
 
                         <div>
+                            <input type="hidden" name="requestType" value="videoAuto">
                             <button class="w-100 btn btn-primary btn-lg " type="submit">Оформить заказ</button>
                         </div>
                     </form>
@@ -139,58 +144,65 @@
                 </div>
 
                 <div class="collapse" id="collapseVideoFiles">
-                    <form class="card-body">
+                    <form class="card-body" action="/react/add_order" method="post" enctype="multipart/form-data">
                         <div class="py-3">
-                            <label for="primaryDocumentVideoFiles" class="form-label h5">Основной документ /
+                            <label for="videoFilesPrimaryDocument" class="form-label h5">Основной документ /
                                 изображение:</label>
-                            <input type="file" class="form-control" id="primaryDocumentVideoFiles">
+                            <input name="videoFilesPrimaryDocument" type="file" class="form-control"
+                                id="videoFilesPrimaryDocument">
                         </div>
 
                         <div class="py-3">
-                            <label for="primaryDocumentVideoFiles" class="form-label h5">Документ / изображение для
+                            <label for="videoFilesBackgroundDocument" class="form-label h5">Документ / изображение для
                                 заднего плана:</label>
-                            <input type="file" class="form-control" id="primaryDocumentVideoFiles">
+                            <input name="videoFilesBackgroundDocument" type="file" class="form-control"
+                                id="videoFilesBackgroundDocument">
                         </div>
 
 
                         <div class="py-3">
                             <!-- цитата. повторяющийся блок -->
                             <!-- чекбокс цитаты -->
-                            <input type="checkbox" class="form-check-input" id="videoFilesQuoteEnabled"
-                                data-bs-toggle="collapse" data-bs-target="#collapseQuoteVideoFiles" aria-expanded="true"
+                            <input name="quoteEnabled" type="checkbox" class="form-check-input"
+                                id="videoFilesQuoteEnabled" data-bs-toggle="collapse"
+                                data-bs-target="#collapseQuoteVideoFiles" aria-expanded="true"
                                 aria-controls="collapseQuoteVideoFiles">
                             <label class="form-check-label h5" for="videoFilesQuoteEnabled">Цитата</label>
 
                             <div class="collapse" id="collapseQuoteVideoFiles">
                                 <!-- текст цитаты -->
                                 <label for="videoFilesQuoteTextText" class="form-label">Текст цитаты:</label>
-                                <textarea rows="8" type="text" class="form-control" id="videoFilesQuoteTextText"
-                                    placeholder='Мы – телеканал "Настоящее Время". Мы делаем яркие видео, рассказываем о важных новостях и злободневных темах, готовим интересные репортажи и передачи – смотрите нас на спутнике, в кабельных сетях и в интернете. Каждый день мы присылаем дайджест всего, что нужно знать, одним письмом, а также превращаем цифры в понятные истории.'></textarea>
+                                <input name="quoteTextText" rows="8" type="text" class="form-control"
+                                    id="videoFilesQuoteTextText"
+                                    placeholder='Мы – телеканал "Настоящее Время". Мы делаем яркие видео, рассказываем о важных новостях и злободневных темах, готовим интересные репортажи и передачи – смотрите нас на спутнике, в кабельных сетях и в интернете. Каждый день мы присылаем дайджест всего, что нужно знать, одним письмом, а также превращаем цифры в понятные истории.'></input>
 
                                 <br>
                                 <!-- автор цитаты -->
                                 <label for="videoFilesQuoteAuthorText" class="form-label">Автор цитаты:</label>
-                                <input type="text" class="form-control" id="videoFilesQuoteAuthorText"
+                                <input name="quoteAuthorText" type="text" class="form-control"
+                                    id="videoFilesQuoteAuthorText"
                                     placeholder="Павел Буторин, директор Настоящего Времени">
                                 <!-- конец цитаты -->
                             </div>
                         </div>
 
                         <div class="py-3">
-                            <input type="checkbox" class="form-check-input" id="videoFilesAudioEnabled"
-                                data-bs-toggle="collapse" data-bs-target="#collapseAudioVideoFiles"
-                                aria-expanded="false" aria-controls="collapseAudioVideoFiles">
+                            <input name="audioEnabled" type="checkbox" class="form-check-input"
+                                id="videoFilesAudioEnabled" data-bs-toggle="collapse"
+                                data-bs-target="#collapseAudioVideoFiles" aria-expanded="false"
+                                aria-controls="collapseAudioVideoFiles">
                             <label class="form-check-label h5" for="videoFilesAudioEnabled">Аудио</label>
 
                             <div class="collapse" id="collapseAudioVideoFiles">
                                 <!-- аудио файл -->
                                 <label for="videoFilesAudioFile" class="form-label">Аудио-файл (mp3 или wav):</label>
-                                <input type="file" class="form-control" id="videoFilesAudioFile"
+                                <input name="audioFile" type="file" class="form-control" id="videoFilesAudioFile"
                                     placeholder="Марк Цицерон, политический деятель">
                             </div>
                         </div>
 
                         <div>
+                            <input type="hidden" name="requestType" value="videoFiles">
                             <button class="w-100 btn btn-primary btn-lg " type="submit">Оформить заказ</button>
                         </div>
                     </form>
