@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
-import {Link as RouterLink, useHistory} from 'react-router-dom';
+import {Link as RouterLink} from 'react-router-dom';
 import {makeStyles} from "tss-react/mui";
 import {Avatar, Container, Grid, Link, Typography} from "@mui/material";
 import {LockOutlined} from "@mui/icons-material";
 import {useDispatch, useSelector} from "react-redux";
 import {registerRequest,} from "../../store/actions/usersActions";
-import FormElement from "../../components/UI/Form/FormElement/FormElement";
+import {inputChangeHandler, submitFormHandler} from "../../components/UI/Form/Handlers/Handlers";
 import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
+import FormComponent from "../../components/UI/Form/FormComponent/FormComponent";
 
 const useStyles = makeStyles()(theme => ({
   paper: {
@@ -32,32 +33,11 @@ const Register = () => {
   const dispatch = useDispatch();
   const error = useSelector(state => state.users.registerError);
   const loading = useSelector(state => state.users.registerLoading);
-  const history = useHistory();
   const [user, setUser] = useState({
+    username: '',
     email: '',
     password: '',
-    displayName: '',
   });
-
-  const inputChangeHandler = e => {
-    const {name, value} = e.target;
-
-    setUser(prev => ({...prev, [name]: value}));
-  };
-
-  const submitFormHandler = e => {
-    e.preventDefault();
-    dispatch(registerRequest(user));
-    history.push('/');
-  };
-
-  const getFieldError = fieldName => {
-    try {
-      return error.errors[fieldName].message;
-    } catch {
-      return undefined;
-    }
-  };
 
   return (
     <Container maxWidth="xs">
@@ -68,41 +48,20 @@ const Register = () => {
         <Typography component="h1" variant="h6">
           Sign up
         </Typography>
-
-        <Grid
-          component="form"
-          onSubmit={submitFormHandler}
-          container
-          spacing={2}
-        >
-          <FormElement
-            required={true}
-            label="Email"
-            name="email"
-            value={user.email}
-            onChange={inputChangeHandler}
-            error={getFieldError('email')}
+          <FormComponent
+              title="Создайте свой профиль"
+              typeForm="Зарегистрироваться"
+              submit={e => submitFormHandler(e, dispatch(registerRequest({ ...user })))}
+              onChange={e => inputChangeHandler(e, setUser)}
+              inputName={['username', 'email', 'password']}
+              placeholderName={['Имя', 'Электронная почта', 'Создайте пароль']}
+              inputType={['text', 'text', 'password']}
+              value={user}
+              error={error}
+              endPoint="/login"
+              linkToPage="Войти"
+              disabled={!user.email || !user.password || !user.username}
           />
-
-          <FormElement
-            required={true}
-            label="Display Name"
-            name="displayName"
-            value={user.displayName}
-            onChange={inputChangeHandler}
-            error={getFieldError('displayName')}
-          />
-
-          <FormElement
-            type="password"
-            required={true}
-            label="Password"
-            name="password"
-            value={user.password}
-            onChange={inputChangeHandler}
-            error={getFieldError('password')}
-          />
-
           <Grid item xs={12}>
             <ButtonWithProgress
               loading={loading}
@@ -116,7 +75,6 @@ const Register = () => {
               Sign Up
             </ButtonWithProgress>
           </Grid>
-        </Grid>
         <Grid container justifyContent="flex-end">
           <Grid item>
             <Link component={RouterLink} to="/login">

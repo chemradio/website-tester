@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
-import {Link as RouterLink, useHistory} from 'react-router-dom';
+import {Link as RouterLink} from 'react-router-dom';
 import {makeStyles} from "tss-react/mui";
 import {Alert, Avatar, Container, Grid, Link, Typography} from "@mui/material";
 import {LockOpenOutlined} from "@mui/icons-material";
 import {useDispatch, useSelector} from "react-redux";
-import FormElement from "../../components/UI/Form/FormElement/FormElement";
-import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
+import {inputChangeHandler, submitFormHandler} from "../../components/UI/Form/Handlers/Handlers";
 import {loginUserRequest} from "../../store/actions/usersActions";
+import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
+import FormComponent from "../../components/UI/Form/FormComponent/FormComponent";
 
 const useStyles = makeStyles()(theme => ({
   paper: {
@@ -34,7 +35,6 @@ const useStyles = makeStyles()(theme => ({
 const Login = () => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
   const error = useSelector(state => state.users.loginError);
   const loading = useSelector(state => state.users.loginLoading);
 
@@ -42,17 +42,6 @@ const Login = () => {
     email: '',
     password: '',
   });
-
-  const inputChangeHandler = e => {
-    const {name, value} = e.target;
-    setUser(prev => ({...prev, [name]: value}));
-  };
-
-  const submitFormHandler = async e => {
-    e.preventDefault();
-    await dispatch(loginUserRequest({...user}));
-    history.push('/');
-  };
 
   return (
     <Container maxWidth="xs">
@@ -69,30 +58,18 @@ const Login = () => {
             Error! {error.message}
           </Alert>
         )}
-
-        <Grid
-          component="form"
-          onSubmit={submitFormHandler}
-          container
-          spacing={2}
-        >
-          <FormElement
-            required={true}
-            label="Email"
-            name="email"
-            value={user.email}
-            onChange={inputChangeHandler}
-          />
-
-          <FormElement
-            type="password"
-            required={true}
-            label="Password"
-            name="password"
-            value={user.password}
-            onChange={inputChangeHandler}
-          />
-
+        <FormComponent
+            title="Войдите в свой профиль"
+            typeForm="Войти"
+            submit={e => submitFormHandler(e, dispatch(loginUserRequest({ userData: user })))}
+            onChange={e => inputChangeHandler(e, setUser)}
+            inputName={['email', 'password']}
+            placeholderName={['Электронная почта', 'Пароль']}
+            inputType={['text', 'password']}
+            value={user}
+            error={error}
+            disabled={!user.email || !user.password}
+        />
           <Grid item xs={12}>
             <ButtonWithProgress
               loading={loading}
@@ -106,7 +83,6 @@ const Login = () => {
               Sign In
             </ButtonWithProgress>
           </Grid>
-        </Grid>
         <Grid container justifyContent="flex-end">
           <Grid item>
             <Link component={RouterLink} to="/register">
