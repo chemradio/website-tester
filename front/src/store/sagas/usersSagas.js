@@ -18,12 +18,13 @@ export function* registerUserSaga({payload: userData}) {
 
     yield put(registerSuccess(response.data));
     yield put(addNotification('Register successful!', 'success'));
-    yield put(historyPush('/'));
+    yield put(historyPush('/'))
 
   }
   catch (e) {
     if(e.response && e.response.data ){
       yield put(registerFailure(e.response.data));
+      yield put(historyPush('/register'))
     }
   }
 }
@@ -38,6 +39,7 @@ export function* loginUserSaga({payload: userData}) {
   catch (e) {
     if(e.response && e.response.data ){
       yield put(loginUserFailure(e.response.data));
+      yield put(historyPush('/login'))
     }
   }
 }

@@ -8,9 +8,9 @@ import New from "./containers/New/New";
 const App = () => (
     <Layout>
         <Switch>
+            <Route path="/" exact component={Home}/>
             <Route path="/login" component={Login}/>
             <Route path="/register" component={Register}/>
-            <Route path="/" exact component={Home}/>
             <Route path="/new" exact component={New}/>
         </Switch>
     </Layout>

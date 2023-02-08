@@ -5,7 +5,6 @@ import {Button} from "@mui/material";
 
 const FormComponent = ({
   title,
-  label,
   inputName,
   inputType,
   submit,
@@ -21,7 +20,6 @@ const FormComponent = ({
   if (inputName) {
     form = inputName.map((name, index) => (
         <div key={name[index]}>
-          <label>{label[index]}</label>
           <FormInput
             type={inputType[index]}
             placeholder={placeholderName[index]}
@@ -39,7 +37,7 @@ const FormComponent = ({
       <form onSubmit={submit} className="form">
         <h4 className="form_title">{title}</h4>
         {form}
-        <Button disabled={disabled}>{typeForm}</Button>
+        <Button type="submit" disabled={disabled}>{typeForm}</Button>
       </form>
     </>
   )

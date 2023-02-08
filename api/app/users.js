@@ -4,8 +4,8 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
     try {
-        const {email, password, displayName} = req.body;
-        const userData = {email, password, displayName};
+        const {email, password, username} = req.body;
+        const userData = {email, password, username};
 
         const user = new User(userData);
 
@@ -32,7 +32,7 @@ router.post('/sessions', async (req, res) => {
 
     user.generateToken();
     await user.save({validateBeforeSave: false});
-    res.send({message: 'Username and password correct!', user});
+    res.send({message: 'email and password correct!', user});
 });
 
 router.delete('/sessions', async (req, res) => {

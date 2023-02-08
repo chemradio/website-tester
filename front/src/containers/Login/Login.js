@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {inputChangeHandler, submitFormHandler} from "../../components/UI/Form/Handlers/Handlers";
 import {loginUserRequest} from "../../store/actions/usersActions";
 import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
-import FormComponent from "../../components/UI/Form/FormComponent/FormComponent";
+import FormInput from "../../components/UI/Form/FormInput/FormInput";
 
 const useStyles = makeStyles()(theme => ({
   paper: {
@@ -58,18 +58,9 @@ const Login = () => {
             Error! {error.message}
           </Alert>
         )}
-        <FormComponent
-            title="Войдите в свой профиль"
-            typeForm="Войти"
-            submit={e => submitFormHandler(e, dispatch(loginUserRequest({ userData: user })))}
-            onChange={e => inputChangeHandler(e, setUser)}
-            inputName={['email', 'password']}
-            placeholderName={['Электронная почта', 'Пароль']}
-            inputType={['text', 'password']}
-            value={user}
-            error={error}
-            disabled={!user.email || !user.password}
-        />
+        <form onSubmit={e => submitFormHandler(e, dispatch(loginUserRequest({ ...user })))}>
+          <FormInput onChange={e => inputChangeHandler(e, setUser)} name="email" value={user.email} type="email"/>
+          <FormInput onChange={e => inputChangeHandler(e, setUser)} name="password" value={user.password} type="password"/>
           <Grid item xs={12}>
             <ButtonWithProgress
               loading={loading}
@@ -83,13 +74,14 @@ const Login = () => {
               Sign In
             </ButtonWithProgress>
           </Grid>
-        <Grid container justifyContent="flex-end">
-          <Grid item>
-            <Link component={RouterLink} to="/register">
-              Or sign up
-            </Link>
+          <Grid container justifyContent="flex-end">
+            <Grid item>
+              <Link component={RouterLink} to="/register">
+                Or sign up
+              </Link>
+            </Grid>
           </Grid>
-        </Grid>
+        </form>
       </div>
     </Container>
   );

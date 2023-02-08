@@ -41,15 +41,12 @@ const UserSchema = new Schema({
         default: 'user',
         enum: ['user', 'admin'],
     },
-    displayName: {
+    username: {
         type: String,
         required: true,
     },
-    facebookId: String,
     
     avatar: String,
-
-    friends: [{type: Schema.Types.ObjectId, ref: 'User'}]
 });
 
 UserSchema.pre('save', async function(next) {
