@@ -16,15 +16,17 @@ const run = async () => {
     password: 'admin',
     token: nanoid(),
     role: 'admin',
-    displayName: 'Admin',
-    image: 'http://localhost:8000/fixtures/admin.jpg'
+    username: 'Admin',
+    image: 'http://localhost:8000/fixtures/admin.jpg',
+    confirmationCode: 'dwadadwadawwd33a455dwadg',
   }, {
     email: 'user@mail.ru',
     password: 'user',
     token: nanoid(),
     role: 'user',
-    displayName: 'User',
-    image: 'http://localhost:8000/fixtures/user.png'
+    username: 'User',
+    image: 'http://localhost:8000/fixtures/user.png',
+    confirmationCode: 'dwadadwadawwd33a455dwada',
   });
 
   await mongoose.connection.close();

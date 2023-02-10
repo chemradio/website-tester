@@ -3,8 +3,11 @@ import {useDispatch} from "react-redux";
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import {Avatar, Grid} from "@mui/material";
+import {Fab} from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
 import {logOutRequest} from "../../../../store/actions/usersActions";
+import {Link} from "react-router-dom";
+import Avatar from "../../Avatar/Avatar";
 
 const UserMenu = ({user}) => {
   const dispatch = useDispatch();
@@ -21,6 +24,11 @@ const UserMenu = ({user}) => {
 
   return (
     <div style={{display: 'flex', alignItems: 'center'}}>
+        <Link to="/new">
+            <Fab color="secondary" aria-label="add" sx={{width: '40px', height: '15px'}}>
+                <AddIcon />
+            </Fab>
+        </Link>
       <Button
         id="basic-button"
         color="inherit"
@@ -29,7 +37,7 @@ const UserMenu = ({user}) => {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        <Avatar children={user.displayName} variant="rounded" sx={{fontSize: '10px', color: 'red'}}/>
+        <Avatar user={user}/>
       </Button>
       <Menu
         id="basic-menu"

@@ -58,9 +58,21 @@ const Login = () => {
             Error! {error.message}
           </Alert>
         )}
-        <form onSubmit={e => submitFormHandler(e, dispatch(loginUserRequest({ ...user })))}>
-          <FormInput onChange={e => inputChangeHandler(e, setUser)} name="email" value={user.email} type="email"/>
-          <FormInput onChange={e => inputChangeHandler(e, setUser)} name="password" value={user.password} type="password"/>
+        <form onSubmit={e => submitFormHandler(e, dispatch(loginUserRequest({userData: user})))}>
+          <FormInput
+              onChange={e => inputChangeHandler(e, setUser)}
+              name="email"
+              value={user.email}
+              type="email"
+              placeholder="email"
+          />
+          <FormInput
+              onChange={e => inputChangeHandler(e, setUser)}
+              name="password"
+              value={user.password}
+              type="password"
+              placeholder="password"
+          />
           <Grid item xs={12}>
             <ButtonWithProgress
               loading={loading}

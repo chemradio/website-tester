@@ -1,0 +1,54 @@
+
+.title-block {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    background-color: white;
+    border-radius: 16px;
+    margin-bottom: 20px;
+
+    &__children {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    &-item {
+      display: flex;
+      text-align: center;
+      min-width: 50%;
+      background-color: white;
+      cursor: pointer;
+
+      &--active {
+        background: #F2F2F7;
+        border-radius: 16px;
+        box-shadow: 0 2px 4px -2px rgba(24, 39, 75, 0.12), 0px 4px 4px -2px rgba(24, 39, 75, 0.08);
+      }
+    }
+
+    &-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 24px;
+      padding: 15px 10px;
+      flex: 1;
+    }
+  }
+}
+
+@media screen and (max-width: 470px) {
+  .title-block__buttons-button {
+    font-size: 15px;
+    font-weight: 500;
+  }
+}

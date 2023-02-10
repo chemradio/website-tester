@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.get('/', async (req, res) => {
     try {
-        const orders = await Order.find()
+        const orders = await Order.find().populate('user')
         res.send(orders)
     } catch (e) {
         res.status(500).send({ error: e.message })
@@ -15,62 +15,48 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
-        const findCategory = await Category.findById(req.params.id)
+        const findOrder = await Order.findById(req.params.id)
 
-        if (!findCategory) {
-            return res.status(404).send({ message: 'Category not found!' })
+        if (!findOrder) {
+            return res.status(404).send({ message: 'Order not found!' })
         }
 
-        res.send(findCategory)
+        res.send(findOrder)
     } catch (e) {
         res.status(500).send({ error: e.message })
     }
 })
 
 router.post('/', auth, async (req, res) => {
+    let user = req.user
     try {
-        const { title, description } = req.body
+        if (!req.body.link) res.status(400).send({message: 'Not found!'})
 
-        if (!title) {
-            return res.status(400).send({
-                message: 'Введенные данные не верны!',
-            })
+        const OrderData = {
+            status: req.body.status,
+
+            stage: req.body.stage,
+
+            link: req.body.link,
+
+            order_creation_end_timestamp: Date.now(),
+
+            audio_enabled: req.body.audio_enabled,
+
+            quote_enabled: req.body.quote_enabled,
+
+            audio_name: req.body.audio_name,
+
+            quote_text: req.body.quote_text,
+
+            quote_author_text: req.body.quote_author_text,
+
+            user: user._id
         }
 
-        const categoryData = {
-            title,
-            description,
-        }
-
-        const category = new Category(categoryData)
-        await category.save()
-        res.send(category)
-    } catch (e) {
-        res.status(500).send({ error: e.message })
-    }
-})
-
-router.put('/:id', auth, async (req, res) => {
-    try {
-        const { title, description } = req.body
-
-        if (!title) {
-            return res.status(400).send({ message: 'Введенные данные не верны!' })
-        }
-
-        const categoryData = {
-            title,
-            description,
-        }
-
-        const category = await Category.findById(req.params.id)
-
-        if (!category) {
-            return res.status(404).send({ message: 'Category not found!' })
-        }
-
-        const updateCategory = await Category.findByIdAndUpdate(req.params.id, categoryData, { new: true })
-        res.send(updateCategory)
+        const order = new Order(OrderData)
+        await order.save()
+        res.send(order)
     } catch (e) {
         res.status(500).send({ error: e.message })
     }

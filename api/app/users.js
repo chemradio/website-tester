@@ -1,54 +1,102 @@
 const express = require('express');
-const User = require('../models/User');
 const router = express.Router();
+const utils = require('../middleware/token');
+const User = require('../models/User');
+
+const getLiveCookie = user => {
+    const { username } = user
+    const maxAge = 730 * 60 * 60
+    return { token: utils.getToken(username, maxAge), maxAge }
+}
+
+const getLiveSecretCookie = user => {
+    const { username } = user
+    const maxAge = 5 * 60 * 60
+    return { token: utils.getToken(username, maxAge), maxAge }
+}
 
 router.post('/', async (req, res) => {
     try {
-        const {email, password, username} = req.body;
-        const userData = {email, password, username};
+        const secretToken = getLiveSecretCookie({ email: req.body.email })
 
-        const user = new User(userData);
+        const { email, password, username } = req.body
 
-        user.generateToken();
-        await user.save();
+        const userData = { email, password, username, confirmationCode: secretToken.token }
 
-        res.send(user);
+        const user = new User(userData)
+
+        const { token, maxAge } = getLiveCookie(user)
+
+        res.cookie('jwt', token, {
+            httpOnly: false,
+            maxAge: maxAge * 1000,
+        })
+
+        user.token = token
+
+        await user.save()
+
+        return res.status(201).send(user)
     } catch (e) {
-        res.status(400).send(e);
+        return res.status(400).send(e)
     }
 });
 
 router.post('/sessions', async (req, res) => {
-    const user = await User.findOne({email: req.body.email});
+        try {
+            if (req.cookies.jwt) {
+                const user = await User.findOne({token: req.cookies.jwt})
+                console.log(user)
+                return res.send(user)
+            }
+            if (!req.body.email || !req.body.password) {
+                return res.status(401).send({message: 'Введенные данные не верны!'})
+            }
 
-    if (!user) res.status(401).send({message: 'Credentials are wrong!'});
+            const user = await User.findOne({email: req.body.email})
 
+            if (!user) {
+                return res.status(401).send({message: 'Введенные данные не верны!'})
+            }
 
-    const isMatch = await user.checkPassword(req.body.password);
+            const isMatch = await user.checkPassword(req.body.password)
+            if (!isMatch) {
+                return res.status(401).send({message: 'Введенные данные не верны!'})
+            }
 
-    if (!isMatch) {
-        return res.status(401).send({message: 'Credentials are wrong!'});
-    }
+            const {token, maxAge} = getLiveCookie(user)
 
-    user.generateToken();
-    await user.save({validateBeforeSave: false});
-    res.send({message: 'email and password correct!', user});
+            res.cookie('jwt', token, {
+                httpOnly: false,
+                maxAge: maxAge * 1000,
+            })
+
+            user.token = token
+            await user.save({validateBeforeSave: false})
+
+            return res.send(user)
+
+        } catch (e) {
+            return res.status(500).send({ error: e })
+        }
 });
 
 router.delete('/sessions', async (req, res) => {
-    const token = req.get('Authorization');
-    const success = {message: 'Success'};
+    const success = { message: 'Success' }
+    const cookie = req.cookies.jwt
 
-    if (!token) return res.send(success);
+    if (!cookie) return res.send(success)
 
-    const user = await User.findOne({token});
+    const user = await User.findOne({ token: cookie })
 
-    if (!user) return res.send(success);
+    if (!user) return res.send(success)
 
-    user.generateToken();
-    await user.save({validateBeforeSave: false});
+    const { token } = getLiveCookie(user)
+    user.token = token
 
-    return res.send({success, user});
+    await user.save({ validateBeforeSave: false })
+
+    return res.send({ success, user })
 });
 
 module.exports = router;

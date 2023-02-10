@@ -1,5 +1,7 @@
 import {put, takeEvery} from "redux-saga/effects";
 import axiosApi from "../../axiosApi";
+import Cookies from 'js-cookie'
+import {historyPush} from "../actions/historyActions";
 import {
   registerRequest,
   registerSuccess,
@@ -9,48 +11,54 @@ import {
   loginUserRequest,
   logOutRequest,
 } from "../actions/usersActions";
-import {addNotification} from "../actions/notifierActions";
-import {historyPush} from "../actions/historyActions";
+
 
 export function* registerUserSaga({payload: userData}) {
   try {
-    const response = yield axiosApi.post('/users', userData);
-
-    yield put(registerSuccess(response.data));
-    yield put(addNotification('Register successful!', 'success'));
-    yield put(historyPush('/'))
-
-  }
-  catch (e) {
-    if(e.response && e.response.data ){
-      yield put(registerFailure(e.response.data));
-      yield put(historyPush('/register'))
+    const response = yield axiosApi.post('/users', userData)
+    yield put(registerSuccess(response.data))
+  } catch (e) {
+    if (e.response && e.response.data) {
+      yield put(registerFailure(e.response.data))
     }
   }
 }
 
-export function* loginUserSaga({payload: userData}) {
+export function* loginUserSaga({ payload }) {
   try {
-    const response = yield axiosApi.post('/users/sessions', userData);
-      yield put(loginUserSuccess(response.data));
-      yield put(addNotification('Register successful!', 'success'));
-      yield put(historyPush('/'));
-  }
-  catch (e) {
-    if(e.response && e.response.data ){
-      yield put(loginUserFailure(e.response.data));
-      yield put(historyPush('/login'))
+    let response
+    if (!payload) {
+      response = yield axiosApi.post(`/users/sessions`)
+    }
+    if (payload) {
+      Cookies.remove('jwt')
+      response = yield axiosApi.post(`/users/sessions`, payload.userData)
+    }
+    yield put(loginUserSuccess(response.data))
+
+    if (payload.userData) {
+      yield put(historyPush('/'))
+    }
+
+  } catch (e) {
+    if (e.response && e.response.data) {
+      yield put(loginUserFailure(e.response.data))
     }
   }
 }
 
-export function* logoutUserSaga () {
-    try {
-      yield axiosApi.delete('/users/sessions');
-    } catch (e) {
-      yield put(addNotification('Logout not successful!', 'failure'));
-    }
+export function* logoutUserSaga() {
+  try {
+    yield axiosApi.delete('users/sessions')
+
+    yield put(historyPush('/'))
+    yield Cookies.remove('jwt')
+
+  } catch (e) {
+    console.log(e)
+  }
 }
+
 
 const userSagas = [
   takeEvery(registerRequest, registerUserSaga),

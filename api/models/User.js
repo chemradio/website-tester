@@ -35,6 +35,10 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
+    confirmationCode: {
+        type: String,
+        unique: true,
+    },
     role: {
         type: String,
         required: true,

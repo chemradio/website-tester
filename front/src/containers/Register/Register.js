@@ -7,7 +7,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {registerRequest,} from "../../store/actions/usersActions";
 import {inputChangeHandler, submitFormHandler} from "../../components/UI/Form/Handlers/Handlers";
 import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
-import FormComponent from "../../components/UI/Form/FormComponent/FormComponent";
 import FormInput from "../../components/UI/Form/FormInput/FormInput";
 
 const useStyles = makeStyles()(theme => ({
@@ -35,9 +34,9 @@ const Register = () => {
   const error = useSelector(state => state.users.registerError);
   const loading = useSelector(state => state.users.registerLoading);
   const [user, setUser] = useState({
-    username: '',
     email: '',
     password: '',
+    username: '',
   });
 
   return (
@@ -50,9 +49,26 @@ const Register = () => {
           Sign up
         </Typography>
         <form onSubmit={e => submitFormHandler(e, dispatch(registerRequest({ ...user })))}>
-            <FormInput onChange={e => inputChangeHandler(e, setUser)} name="username" value={user.username}/>
-            <FormInput onChange={e => inputChangeHandler(e, setUser)} name="email" value={user.email}/>
-            <FormInput onChange={e => inputChangeHandler(e, setUser)} name="password" value={user.password}/>
+            <FormInput
+                onChange={e => inputChangeHandler(e, setUser)}
+                name="username"
+                value={user.username}
+                placeholder="username"
+            />
+            <FormInput
+                onChange={e => inputChangeHandler(e, setUser)}
+                type="email"
+                name="email"
+                value={user.email}
+                placeholder="email"
+            />
+            <FormInput
+                onChange={e => inputChangeHandler(e, setUser)}
+                type="password"
+                name="password"
+                value={user.password}
+                placeholder="password"
+            />
 
             <Grid item xs={12}>
               <ButtonWithProgress
