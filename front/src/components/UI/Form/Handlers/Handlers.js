@@ -4,6 +4,13 @@ export const inputChangeHandler = (e, setState) => {
   return setState(prev => ({ ...prev, [name]: value }))
 }
 
+export const inputChangeHandlerChecked = (e, setState) => {
+  const name = e.target.name
+  const value = e.target.checked
+  return setState(prev => ({ ...prev, [name]: value }))
+}
+
+
 export const submitFormHandler = (e, fetch) => {
   e.preventDefault()
   return fetch

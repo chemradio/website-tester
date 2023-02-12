@@ -21,14 +21,14 @@ const App = () => {
                         <ProtectedRoute
                             isAllowed={Cookies.get('jwt') || user?.token}
                             redirectTo="/login"
-                            path="/"
-                            component={Home}
+                            path="/new"
+                            component={New}
                         />
                         <ProtectedRoute
                             isAllowed={Cookies.get('jwt') || user?.token}
                             redirectTo="/login"
-                            path="/new"
-                            component={New}
+                            path="/"
+                            component={Home}
                         />
                     </Switch>
                 </Layout>

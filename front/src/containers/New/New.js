@@ -1,31 +1,40 @@
 import React, {useState} from 'react';
-import {inputChangeHandler, submitFormDataHandler, submitFormHandler} from "../../components/UI/Form/Handlers/Handlers";
+import {
+    inputChangeHandler,
+    inputChangeHandlerChecked,
+    submitFormDataHandler,
+    submitFormHandler
+} from "../../components/UI/Form/Handlers/Handlers";
 import {createDataRequest} from "../../store/actions/dataActions";
 import FormInput from "../../components/UI/Form/FormInput/FormInput";
 import FileInput from "../../components/UI/Form/FileInput/FileInput";
-import {Button, Checkbox, Grid} from "@mui/material";
+import {Button, Grid} from "@mui/material";
 import {useDispatch} from "react-redux";
 import ButtonsContent from "../../components/UI/ButtonsContent/ButtonsContent";
+import FormCheck from "../../components/UI/Form/FormCheck/FormCheck";
 
 const New = () => {
     const dispatch = useDispatch();
-    const [quote, setQuote] = useState(false);
-    const [audio, setAudio] = useState(false);
     const [data, setData] = useState({
         status: 'order_creation',
         stage: 'results_confirmed',
         link: '',
-        quote_enabled: quote,
-        audio_enabled: audio,
+        request_type: 'video_auto',
+        quote_enabled: Boolean,
+        audio_enabled: Boolean,
         quote_text: '',
         quote_author_text: '',
         audio_name: '',
+        fore_ground: '',
+        back_ground: '',
     });
 
     return (
         <>
             <div>
                 <ButtonsContent
+                    onClickOne={() => inputChangeHandler({target:{name: 'request_type', value: 'video_auto'}}, setData)}
+                    onClickTwo={() => inputChangeHandler({target:{name: 'request_type', value: 'video_files'}}, setData)}
                     titleOne="Видео-графика из ссылки"
                     titleTwo="Видео-графика из файлов"
                     childrenOne={
@@ -34,6 +43,7 @@ const New = () => {
                                 style={{width: '60%'}}
                                 onSubmit={e => submitFormHandler(e, dispatch(createDataRequest(submitFormDataHandler(data))))}
                             >
+                                <label>Ссылка:</label>
                                 <FormInput
                                     type="text"
                                     placeholder="Вставьте ссылку"
@@ -43,15 +53,17 @@ const New = () => {
                                     className="form_input"
                                 />
                                 <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-                                    <Button variant="outlined" type="submit" style={{margin: '20px 0'}}>
+                                    <Button variant="outlined" type="button" style={{margin: '20px 0'}}>
                                         <label>
                                             Цитата
-                                            <Checkbox onChange={e => setQuote(e.target.checked)}
+                                            <FormCheck
+                                                name="quote_enabled"
+                                                onChange={e => inputChangeHandlerChecked(e, setData)}
                                             />
                                         </label>
                                     </Button>
                                 </div>
-                                {quote
+                                {data.quote_enabled === true
                                     ?
                                     <>
                                         <FormInput
@@ -72,16 +84,17 @@ const New = () => {
                                     : null
                                 }
                                 <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-                                    <Button variant="outlined" type="submit" style={{margin: '20px 0'}}>
+                                    <Button variant="outlined" type="button" style={{margin: '20px 0'}}>
                                         <label style={{display: 'block', marginLeft: '8px'}}>
                                             Аудио
-                                            <Checkbox
-                                                onChange={e => setAudio(e.target.checked)}
+                                            <FormCheck
+                                                name="audio_enabled"
+                                                onChange={e => inputChangeHandlerChecked(e, setData)}
                                             />
                                         </label>
                                     </Button>
                                 </div>
-                                {audio
+                                {data.audio_enabled === true
                                     ? <FileInput
                                         name="audio_name"
                                         onChange={e => inputChangeHandler(e, setData)}
@@ -89,7 +102,7 @@ const New = () => {
                                         placeholder={data.audio_name}
                                     />
                                     : null}
-                                <Button color="secondary" type="submit" style={{margin: '20px 0'}}>
+                                <Button variant="contained" color="secondary" type="submit" style={{margin: '20px 0'}}>
                                     Оформить заказ
                                 </Button>
                             </form>
@@ -100,24 +113,35 @@ const New = () => {
                                     <form style={{width: '60%'}}
                                         onSubmit={e => submitFormHandler(e, dispatch(createDataRequest(submitFormDataHandler(data))))}
                                     >
+                                        <label>Основной документ / изображение:</label>
                                         <FileInput
-                                            name="audio_name"
+                                            name="fore_ground"
                                             onChange={e => inputChangeHandler(e, setData)}
                                             setState={setData}
-                                            placeholder={data.audio_name}
+                                            placeholder={data.fore_ground}
+                                        />
+                                        <label>Документ / изображение для заднего плана:</label>
+                                        <FileInput
+                                            name="back_ground"
+                                            onChange={e => inputChangeHandler(e, setData)}
+                                            setState={setData}
+                                            placeholder={data.back_ground}
                                         />
                                         <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-                                            <Button variant="outlined" type="submit" style={{margin: '20px 0'}}>
+                                            <Button variant="outlined" type="button" style={{margin: '20px 0'}}>
                                                 <label>
                                                     Цитата
-                                                    <Checkbox onChange={e => setQuote(e.target.checked)}
+                                                    <FormCheck
+                                                        name="quote_enabled"
+                                                        onChange={e => inputChangeHandlerChecked(e, setData)}
                                                     />
                                                 </label>
                                             </Button>
                                         </div>
-                                        {quote
+                                        {data.quote_enabled === true
                                             ?
                                             <>
+                                                <label>Текст цитаты:</label>
                                                 <FormInput
                                                     placeholder='Мы – телеканал "Настоящее Время". Мы делаем яркие видео, рассказываем о важных новостях и злободневных темах, готовим интересные репортажи и передачи – смотрите нас на спутнике, в кабельных сетях и в интернете. Каждый день мы присылаем дайджест всего, что нужно знать, одним письмом, а также превращаем цифры в понятные истории.'
                                                     multiline
@@ -125,6 +149,7 @@ const New = () => {
                                                     value={data.quote_text}
                                                     onChange={e => inputChangeHandler(e, setData)}
                                                 />
+                                                <label>Автор цитаты:</label>
                                                 <FormInput
                                                     placeholder="Павел Буторин, директор Настоящего Времени"
                                                     onChange={e => inputChangeHandler(e, setData)}
@@ -136,24 +161,29 @@ const New = () => {
                                             : null
                                         }
                                         <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-                                            <Button variant="outlined" type="submit" style={{margin: '20px 0'}}>
-                                                <label style={{display: 'block'}}>
+                                            <Button variant="outlined" type="button" style={{margin: '20px 0'}}>
+                                                <label>
                                                     Аудио
-                                                    <Checkbox
-                                                        onChange={e => setAudio(e.target.checked)}
+                                                    <FormCheck
+                                                        name="audio_enabled"
+                                                        onChange={e => inputChangeHandlerChecked(e, setData)}
                                                     />
                                                 </label>
                                             </Button>
                                         </div>
-                                        {audio
-                                            ? <FileInput
-                                                name="audio_name"
-                                                onChange={e => inputChangeHandler(e, setData)}
-                                                setState={setData}
-                                                placeholder={data.audio_name}
-                                            />
+                                        {data.audio_enabled === true
+                                            ?
+                                            <>
+                                                <label>Аудио-файл (mp3 или wav):</label>
+                                                <FileInput
+                                                    name="audio_name"
+                                                    onChange={e => inputChangeHandler(e, setData)}
+                                                    setState={setData}
+                                                    placeholder={data.audio_name}
+                                                />
+                                            </>
                                             : null}
-                                        <Button variant="outlined" color="secondary" type="submit" style={{margin: '20px 0'}}>
+                                        <Button variant="contained" color="secondary" type="submit" style={{margin: '20px 0'}}>
                                             Оформить заказ
                                         </Button>
                                     </form>

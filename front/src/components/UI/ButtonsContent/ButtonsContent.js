@@ -15,6 +15,9 @@ const ButtonsContent = ({ titleOne, titleTwo, childrenOne, childrenTwo, onClickO
         >
           <button type="button" onClick={() => setActive(true)} className="title-block__buttons-button">
             {titleOne}
+            <label className="title-block__buttons-button-label">
+                Видео-файл из скриншотов, сделанных из твоей ссылки. Можно добавить цитату и звуковую дорожку
+            </label>
           </button>
         </div>
         <div
@@ -25,6 +28,9 @@ const ButtonsContent = ({ titleOne, titleTwo, childrenOne, childrenTwo, onClickO
         >
           <button type="button" onClick={() => setActive(false)} className="title-block__buttons-button">
             {titleTwo}
+            <label className="title-block__buttons-button-label">
+                Видео-файл из файлов, загруженных тобой
+            </label>
           </button>
         </div>
       </div>
