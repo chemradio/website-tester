@@ -10,30 +10,31 @@ import New from "./containers/New/New";
 import CookieProvider from "./components/CookieProvider/CookieProvider";
 
 const App = () => {
-    const user = useSelector(state => state.users.user)
+    const user = useSelector(state => state.users.user);
+
     return (
-        <CookieProvider>
-            <BrowserRouter>
-                <Layout>
-                    <Switch>
-                        <Route path="/login" component={Login}/>
-                        <Route path="/register" component={Register}/>
-                        <ProtectedRoute
-                            isAllowed={Cookies.get('jwt') || user?.token}
-                            redirectTo="/login"
-                            path="/new"
-                            component={New}
-                        />
-                        <ProtectedRoute
-                            isAllowed={Cookies.get('jwt') || user?.token}
-                            redirectTo="/login"
-                            path="/"
-                            component={Home}
-                        />
-                    </Switch>
-                </Layout>
-            </BrowserRouter>
-        </CookieProvider>
+            <CookieProvider>
+                <BrowserRouter>
+                    <Layout>
+                        <Switch>
+                            <Route path="/login" component={Login}/>
+                            <Route path="/register" component={Register}/>
+                            <ProtectedRoute
+                                isAllowed={Cookies.get('jwt') || user?.token}
+                                redirectTo="/login"
+                                path="/new"
+                                component={New}
+                            />
+                            <ProtectedRoute
+                                isAllowed={Cookies.get('jwt') || user?.token}
+                                redirectTo="/login"
+                                path="/"
+                                component={Home}
+                            />
+                        </Switch>
+                    </Layout>
+                </BrowserRouter>
+            </CookieProvider>
     );
 };
 

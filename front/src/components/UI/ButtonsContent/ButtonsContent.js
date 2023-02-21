@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './ButtonsContent.scss'
 
-const ButtonsContent = ({ titleOne, titleTwo, childrenOne, childrenTwo, onClickOne, onClickTwo }) => {
+const ButtonsContent = ({onClickOne, onClickTwo, titleOne, titleTwo, childrenOne, childrenTwo}) => {
   const [active, setActive] = useState(true)
 
   return (
@@ -35,13 +35,10 @@ const ButtonsContent = ({ titleOne, titleTwo, childrenOne, childrenTwo, onClickO
         </div>
       </div>
       <div className="title-block__children">
-          {active
-              ? <div className="title-block__children_item">
-                    {childrenOne}
-                </div>
-              : <div className="title-block__children_item">
-                  {childrenTwo}
-                </div>}
+              {active
+                  ? <div>{childrenOne}</div>
+                  : <div>{childrenTwo}</div>
+              }
           </div>
     </div>
   )

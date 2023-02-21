@@ -1,18 +1,13 @@
 import React from 'react';
-import {Container, CssBaseline} from "@mui/material";
 import AppToolbar from "../AppToolbar/AppToolbar";
+import './layout.css';
 
 const Layout = ({children}) => {
   return (
-    <>
-      <CssBaseline/>
+    <div className="app__container">
       <AppToolbar/>
-      <main>
-        <Container maxWidth="xl">
-          {children}
-        </Container>
-      </main>
-    </>
+      <main>{children}</main>
+    </div>
   );
 };
 

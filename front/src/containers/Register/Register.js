@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Link as RouterLink} from 'react-router-dom';
+import {Link as RouterLink, useHistory} from 'react-router-dom';
 import {makeStyles} from "tss-react/mui";
 import {Avatar, Container, Grid, Link, Typography} from "@mui/material";
 import {LockOutlined} from "@mui/icons-material";
@@ -10,6 +10,13 @@ import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWit
 import FormInput from "../../components/UI/Form/FormInput/FormInput";
 
 const useStyles = makeStyles()(theme => ({
+  mainLink: {
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:hover': {
+      color: 'inherit'
+    },
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -31,6 +38,7 @@ const useStyles = makeStyles()(theme => ({
 const Register = () => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
   const error = useSelector(state => state.users.registerError);
   const loading = useSelector(state => state.users.registerLoading);
   const [user, setUser] = useState({
@@ -40,7 +48,7 @@ const Register = () => {
   });
 
   return (
-    <Container maxWidth="xs">
+    <Container maxWidth="xs" className={classes.mainLink}>
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlined/>
@@ -48,7 +56,10 @@ const Register = () => {
         <Typography component="h1" variant="h6">
           Sign up
         </Typography>
-        <form onSubmit={e => submitFormHandler(e, dispatch(registerRequest({ ...user })))}>
+        <form onSubmit={e => {
+          submitFormHandler(e, dispatch(registerRequest({ ...user })));
+          history.push('/');
+        }}>
             <FormInput
                 onChange={e => inputChangeHandler(e, setUser)}
                 name="username"

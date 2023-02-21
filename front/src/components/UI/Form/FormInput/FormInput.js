@@ -1,23 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {TextField} from "@mui/material";
 
 const FormInput = ({ type, name, value, onChange, placeholder, required, error, multiline }) => (
   <>
-      <TextField
-          multiline={multiline}
-          rows={4}
-          variant="outlined"
+      <input
           type={type}
           required={required}
           name={name}
           value={value}
           onChange={onChange}
-          error={Boolean(error)}
-          helperText={error}
-          color="secondary"
           placeholder={placeholder}
-          style={{margin: '20px 0', color: 'rgba(255, 255, 255, 0.5)'}}
+          style={{
+              color: 'var(--text-background-color)',
+              backgroundColor: 'var(--background-color)',
+              padding: '20px 10px',
+              borderRadius: '20px',
+              border: 'none',
+              boxShadow: '5px 5px 5px -5px rgba(34, 60, 80, 0.6) inset',
+              width: '50%',
+              height: multiline ? '70px' : '20px'
+      }}
       />
   </>
 )

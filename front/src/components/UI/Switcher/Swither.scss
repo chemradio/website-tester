@@ -1,0 +1,35 @@
+.switch-btn {
+  display: inline-block;
+  width: 70px;
+  height: 40px;
+  border-radius: 10px;
+  background: #F2F2F7;
+  z-index: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition-duration: 300ms;
+  box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.6) inset;
+}
+
+.switch-btn::after {
+  content: "";
+  height: 35px;
+  width: 42px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(124,3,255,0.3596288857339811) 100%);
+  box-shadow: 0 5px 10px 2px rgba(34, 60, 80, 0.2);
+  top: 1.6px;
+  left: 2px;
+  transition-duration: 300ms;
+  position: absolute;
+  z-index: 1;
+}
+
+.switch-on::after {
+    left: 30px;
+    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(124,3,255,0.3596288857339811) 100%);
+    box-shadow: 0 5px 10px 2px rgba(34, 60, 80, 0.6);
+  }

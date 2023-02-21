@@ -26,9 +26,8 @@
       padding: 35px 0;
 
       &--active {
-        background: #3b3b3b;
         border-radius: 16px;
-        box-shadow: 0 2px 4px -2px rgba(24, 39, 75, 0.12), 0px 4px 4px -2px rgba(24, 39, 75, 0.08);
+        box-shadow: var(--toll-bar-shadow);
       }
     }
 

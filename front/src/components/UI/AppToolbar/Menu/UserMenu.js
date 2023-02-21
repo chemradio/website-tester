@@ -23,7 +23,7 @@ const UserMenu = ({user}) => {
   };
 
   return (
-    <div style={{display: 'flex', alignItems: 'center'}}>
+    <div style={{display: 'flex', alignItems: 'center', backgroundColor: 'var(--toll-bar-background)'}}>
         <Link to="/new">
             <Fab color="secondary" aria-label="add" sx={{width: '40px', height: '15px'}}>
                 <AddIcon />

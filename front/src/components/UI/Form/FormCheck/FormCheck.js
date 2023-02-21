@@ -1,9 +1,9 @@
 import React from 'react'
 import './FormCheck.scss'
 
-const FormCheck = ({ onChange, name }) => (
+const FormCheck = ({ onChange, name, checked }) => (
   <>
-    <input type="checkbox" className="check" onChange={onChange} name={name}/>
+    <input type="checkbox" className="check" onChange={onChange} name={name} checked={checked}/>
   </>
 )
 

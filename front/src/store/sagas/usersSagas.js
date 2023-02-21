@@ -1,7 +1,6 @@
 import {put, takeEvery} from "redux-saga/effects";
 import axiosApi from "../../axiosApi";
 import Cookies from 'js-cookie'
-import {historyPush} from "../actions/historyActions";
 import {
   registerRequest,
   registerSuccess,
@@ -11,7 +10,6 @@ import {
   loginUserRequest,
   logOutRequest,
 } from "../actions/usersActions";
-
 
 export function* registerUserSaga({payload: userData}) {
   try {
@@ -37,7 +35,6 @@ export function* loginUserSaga({ payload }) {
     yield put(loginUserSuccess(response.data))
 
     if (payload.userData) {
-      yield put(historyPush('/'))
     }
 
   } catch (e) {
@@ -51,7 +48,6 @@ export function* logoutUserSaga() {
   try {
     yield axiosApi.delete('users/sessions')
 
-    yield put(historyPush('/'))
     yield Cookies.remove('jwt')
 
   } catch (e) {
