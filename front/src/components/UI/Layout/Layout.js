@@ -4,7 +4,7 @@ import './layout.css';
 
 const Layout = ({children}) => {
   return (
-    <div className="app__container">
+    <div>
       <AppToolbar/>
       <main>{children}</main>
     </div>

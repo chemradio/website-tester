@@ -2,4 +2,5 @@
 div {
     background-color: var(--background-color);
     color: var(--text-background-color);
+    padding-bottom: 30px;
 }

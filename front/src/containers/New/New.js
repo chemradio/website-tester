@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import {Button, Grid} from "@mui/material";
+import {useDispatch} from "react-redux";
 import {
     inputChangeHandler,
     inputChangeHandlerChecked,
@@ -8,8 +10,6 @@ import {
 import {createDataRequest} from "../../store/actions/dataActions";
 import FormInput from "../../components/UI/Form/FormInput/FormInput";
 import FileInput from "../../components/UI/Form/FileInput/FileInput";
-import {Button, Grid} from "@mui/material";
-import {useDispatch} from "react-redux";
 import ButtonsContent from "../../components/UI/ButtonsContent/ButtonsContent";
 import FormCheck from "../../components/UI/Form/FormCheck/FormCheck";
 
@@ -28,7 +28,7 @@ const New = () => {
         foreground_file: '',
         background_file: '',
     });
-
+    console.log(data)
     return (
         <>
             <div>
@@ -110,8 +110,8 @@ const New = () => {
                                         ? <FileInput
                                             name="audio_file"
                                             onChange={e => inputChangeHandler(e, setData)}
-                                            setState={setData}
                                             placeholder={data.audio_file}
+                                            value={data.audio_file}
                                           />
                                         : null}
                                 </div>
@@ -130,25 +130,27 @@ const New = () => {
                     childrenTwo={
                         <Grid container direction="column" spacing={1} alignItems="center">
                             <form style={{width: '100%', display: 'flex', flexWrap: 'wrap', gap: '30px'}}
-                                onSubmit={e => submitFormHandler(e, dispatch(createDataRequest(submitFormDataHandler(data))))}
+                                onSubmit={e => submitFormHandler(e, data, dispatch(createDataRequest(submitFormDataHandler({...data}))))}
                             >
                                 <div style={{width: '50%', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-                                    <label>Основной документ / изображение:</label>
-                                    <FileInput
-                                        required={true}
-                                        name="foreground_file"
-                                        onChange={e => inputChangeHandler(e, setData)}
-                                        setState={setData}
-                                        placeholder={data.foreground_file}
-                                    />
-                                    <label>Документ / изображение для заднего плана:</label>
-                                    <FileInput
-                                        required={true}
-                                        name="background_file"
-                                        onChange={e => inputChangeHandler(e, setData)}
-                                        setState={setData}
-                                        placeholder={data.background_file}
-                                    />
+                                    <label style={{paddingBottom: '50px'}}>
+                                        Основной документ / изображение:
+                                        <FileInput
+                                            required={true}
+                                            name="foreground_file"
+                                            onChange={e => inputChangeHandler(e, setData)}
+                                            placeholder={data.foreground_file}
+                                            value={data.foreground_file}
+                                        />
+                                    </label>
+                                    <label>Документ / изображение для заднего плана:
+                                        <FileInput
+                                            name="background_file"
+                                            onChange={e => inputChangeHandler(e, setData)}
+                                            placeholder={data.background_file}
+                                            value={data.background_file}
+                                        />
+                                    </label>
                                 </div>
                                 <div style={{width: '45%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '30px'}}>
                                     <Button
@@ -204,13 +206,15 @@ const New = () => {
                                     {data.audio_enabled === true
                                         ?
                                         <>
-                                            <label>Аудио-файл (mp3 или wav):</label>
-                                            <FileInput
-                                                name="audio_file"
-                                                onChange={e => inputChangeHandler(e, setData)}
-                                                setState={setData}
-                                                placeholder={data.audio_file}
-                                            />
+                                            <label style={{paddingBottom: '50px'}}
+                                            >Аудио-файл (mp3 или wav):
+                                                <FileInput
+                                                    name="audio_file"
+                                                    onChange={e => inputChangeHandler(e, setData)}
+                                                    placeholder={data.audio_file}
+                                                    value={data.audio_file}
+                                                />
+                                            </label>
                                         </>
                                         : null}
                                 </div>

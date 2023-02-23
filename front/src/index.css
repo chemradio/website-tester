@@ -9,6 +9,7 @@ html[data-theme="dark"] {
   --text-background-color: white;
   --toll-bar-background: #040404;
   --toll-bar-shadow: 0px 5px 7px -7px #d500f9;
+  --input-shadow: 0px 47px 20px -3px #ffffff;
   --input-border-color: 1px solid #9002a3;
   --button-background: #d500f9;
   --button-text-color: white;
@@ -19,6 +20,7 @@ html[data-theme="light"] {
   --text-background-color: black;
   --toll-bar-background: #9002a3;
   --toll-bar-shadow: 0px 5px 5px -5px rgba(29, 29, 29, 0.6);
+  --input-shadow: 0px 5px 5px -5px rgba(29, 29, 29, 0.6) inset;
   --input-border-color: 1px solid #d500f9;
   --button-background: #0c50fb;
   --button-text-color: white;

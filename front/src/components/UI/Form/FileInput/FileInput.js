@@ -1,52 +1,72 @@
-import React, {useRef} from "react";
+import React from "react";
+import {useRef, useState} from "react";
+import {TextField} from "@mui/material";
+import {makeStyles} from "tss-react/mui";
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 
-const FileInput = ({onChange, name, setState, placeholder, required}) => {
-  const inputRef = useRef();
-
-  const onFileChange = e => {
-    if (e.target.files[0]) {
-      setState(prev => ({...prev, [name]: e.target.files[0].name}))
+const useStyles = makeStyles()(() => ({
+    input: {
+        display: "none",
     }
-    onChange(e);
-  };
+}));
 
-  const activateInput = () => {
-    inputRef.current.click();
-  };
+const FileInput = ({onChange, name, placeholder, required, error}) => {
+    const {classes} = useStyles();
+    const inputRef = useRef();
 
-  return (
-    <div>
-      <input
-        type="file"
-        name={name}
-        onChange={onFileChange}
-        ref={inputRef}
-        style={{display: 'none'}}
-      />
-      <div style={{position: 'relative', display: 'inline-block', margin: '20px 0'}}>
-          <input
-              required={required}
-              onClick={activateInput}
-              placeholder={placeholder || 'добавьте файл'}
-              style={{
-                color: 'var(--text-background-color)',
-                backgroundColor: 'var(--background-color)',
-                padding: '20px 10px',
-                borderRadius: '20px',
-                border: 'none',
-                boxShadow: '5px 5px 5px -5px rgba(34, 60, 80, 0.6) inset',
-                width: '100%',
-                cursor: 'pointer'
-              }}
-          />
-        <AttachFileIcon
-            onClick={activateInput}
-            style={{position: 'absolute', top: '15px', right: '13px', cursor: 'pointer'}}
-        />
-      </div>
-    </div>
-  );
+    const [filename, setFilename] = useState('');
+
+    const onFileChange = e => {
+        if (e.target.files[0]) {
+            setFilename(e.target.files[0].name);
+        } else {
+            setFilename('');
+        }
+
+        onChange(e);
+    };
+
+    const activateInput = () => {
+        inputRef.current.click();
+    };
+
+    return (
+        <div style={{position: 'relative'}}>
+            <input
+                type="file"
+                name={name}
+                className={classes.input}
+                onChange={onFileChange}
+                ref={inputRef}
+            />
+
+                    <TextField
+                        required={required}
+                        color="secondary"
+                        focused
+                        margin="normal"
+                        placeholder={placeholder || 'Вставьте файл'}
+                        value={filename}
+                        onClick={activateInput}
+                        error={Boolean(error)}
+                        helperText={error}
+                        sx={{
+                            color: 'var(--text-background-color)',
+                            backgroundColor: 'var(--background-color)',
+                            borderRadius: '100px',
+                            boxShadow: 'var(--input-shadow)',
+                            width: '100%',
+                            height: '10px',
+                            cursor: 'pointer',
+                            padding: '0',
+                        }}
+                    />
+                    <AttachFileIcon
+                        onClick={activateInput}
+                        style={{position: 'absolute', top: '15px', right: '13px', cursor: 'pointer', color: '#ADFA00'}}
+                    />
+        </div>
+    );
 };
 
 export default FileInput;
