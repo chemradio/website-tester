@@ -1,42 +1,15 @@
 import React, {useState} from 'react';
 import {Link as RouterLink, useHistory} from 'react-router-dom';
-import {makeStyles} from "tss-react/mui";
-import {Avatar, Container, Grid, Link, Typography} from "@mui/material";
+import {Grid, Link, Typography} from "@mui/material";
 import {LockOutlined} from "@mui/icons-material";
 import {useDispatch, useSelector} from "react-redux";
 import {registerRequest,} from "../../store/actions/usersActions";
 import {inputChangeHandler, submitFormHandler} from "../../components/UI/Form/Handlers/Handlers";
 import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
 import FormInput from "../../components/UI/Form/FormInput/FormInput";
-
-const useStyles = makeStyles()(theme => ({
-  mainLink: {
-    color: 'inherit',
-    textDecoration: 'none',
-    '&:hover': {
-      color: 'inherit'
-    },
-  },
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: `${theme.palette.secondary.main} !important`,
-  },
-  form: {
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: `${theme.spacing(2, 0)} !important`,
-  }
-}));
+import ErrorWin from "../../components/UI/ErrorWin/ErrorWin";
 
 const Register = () => {
-  const { classes } = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const error = useSelector(state => state.users.registerError);
@@ -48,11 +21,9 @@ const Register = () => {
   });
 
   return (
-    <Container maxWidth="xs" className={classes.mainLink}>
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        {error ? <ErrorWin error={error}/> : null}
           <LockOutlined/>
-        </Avatar>
         <Typography component="h1" variant="h6">
           Sign up
         </Typography>
@@ -65,6 +36,7 @@ const Register = () => {
                 name="username"
                 value={user.username}
                 placeholder="username"
+                error={error && error.message}
             />
             <FormInput
                 onChange={e => inputChangeHandler(e, setUser)}
@@ -72,6 +44,7 @@ const Register = () => {
                 name="email"
                 value={user.email}
                 placeholder="email"
+                error={error && error.message}
             />
             <FormInput
                 onChange={e => inputChangeHandler(e, setUser)}
@@ -79,6 +52,7 @@ const Register = () => {
                 name="password"
                 value={user.password}
                 placeholder="password"
+                error={error && error.message}
             />
 
             <Grid item xs={12}>
@@ -88,8 +62,7 @@ const Register = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
-                color="primary"
-                className={classes.submit}
+                color="secondary"
               >
                 Sign Up
               </ButtonWithProgress>
@@ -103,7 +76,6 @@ const Register = () => {
           </Grid>
         </form>
       </div>
-    </Container>
   );
 };
 

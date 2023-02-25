@@ -7,7 +7,7 @@ import './index.css';
 
 let app = (
     <Provider store={store}>
-        <App/>
+        <App />
     </Provider>
 );
 

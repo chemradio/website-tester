@@ -1,6 +1,6 @@
 import React from "react";
 import {useRef, useState} from "react";
-import {TextField} from "@mui/material";
+import {Link, TextField} from "@mui/material";
 import {makeStyles} from "tss-react/mui";
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 
@@ -13,17 +13,18 @@ const useStyles = makeStyles()(() => ({
 const FileInput = ({onChange, name, placeholder, required, error}) => {
     const {classes} = useStyles();
     const inputRef = useRef();
-
+    const [linkShow, setLinkShow] = useState(false);
     const [filename, setFilename] = useState('');
 
     const onFileChange = e => {
         if (e.target.files[0]) {
-            setFilename(e.target.files[0].name);
+            setFilename(e.target.files[0]);
+            setLinkShow(true);
         } else {
             setFilename('');
         }
 
-        onChange(e);
+        onChange({ target: { name, value: e.target.files[0] } });
     };
 
     const activateInput = () => {
@@ -39,13 +40,14 @@ const FileInput = ({onChange, name, placeholder, required, error}) => {
                 onChange={onFileChange}
                 ref={inputRef}
             />
-
+            {linkShow === false ?
+                <>
                     <TextField
                         required={required}
                         color="secondary"
                         focused
                         margin="normal"
-                        placeholder={placeholder || 'Вставьте файл'}
+                        placeholder={'Вставьте файл'}
                         value={filename}
                         onClick={activateInput}
                         error={Boolean(error)}
@@ -65,6 +67,9 @@ const FileInput = ({onChange, name, placeholder, required, error}) => {
                         onClick={activateInput}
                         style={{position: 'absolute', top: '15px', right: '13px', cursor: 'pointer', color: '#ADFA00'}}
                     />
+                </>
+                : <Link>{placeholder.name}</Link>
+            }
         </div>
     );
 };

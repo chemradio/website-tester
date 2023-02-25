@@ -31,32 +31,40 @@ router.post('/', auth, async (req, res) => {
     let user = req.user
     try {
         if (!req.body.link) res.status(400).send({message: 'Not found!'})
+        console.log(req.body)
+        // const OrderData = {
+        //     status: req.body.status,
+        //
+        //     stage: req.body.stage,
+        //
+        //     request_type: req.body.request_type,
+        //
+        //     link: req.body.link,
+        //
+        //     order_creation_end_timestamp: Date.now(),
+        //
+        //     audio_enabled: req.body.audio_enabled,
+        //
+        //     quote_enabled: req.body.quote_enabled,
+        //
+        //     quote_text: req.body.quote_text,
+        //
+        //     quote_author_text: req.body.quote_author_text,
+        //
+        //     user: user._id,
+        //
+        //     audio_file: null,
+        //
+        //     foreground_file: null,
+        //
+        //     background_file: null,
+        // }
 
-        const OrderData = {
-            status: req.body.status,
 
-            stage: req.body.stage,
 
-            link: req.body.link,
-
-            order_creation_end_timestamp: Date.now(),
-
-            audio_enabled: req.body.audio_enabled,
-
-            quote_enabled: req.body.quote_enabled,
-
-            audio_name: req.body.audio_name,
-
-            quote_text: req.body.quote_text,
-
-            quote_author_text: req.body.quote_author_text,
-
-            user: user._id
-        }
-
-        const order = new Order(OrderData)
-        await order.save()
-        res.send(order)
+        // const order = new Order(OrderData)
+        // await order.save()
+        // res.send(order)
     } catch (e) {
         res.status(500).send({ error: e.message })
     }

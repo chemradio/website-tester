@@ -28,7 +28,7 @@ const New = () => {
         foreground_file: '',
         background_file: '',
     });
-    console.log(data)
+
     return (
         <>
             <div>
