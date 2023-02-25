@@ -39,16 +39,24 @@ async def add_order_web(
     # quote_text: str = Form(None),
     # quote_author_text: str = Form(None),
     # # audio
-    # audio_enabled: bool = Form(False),
-    # # audio_name: UploadFile | None = None,
+    audio_enabled: bool = Form(False),
+    audio_file: UploadFile | None = None,
     # audio_name: str = Form(None),
-    # # custom layers
-    # # fore_ground: UploadFile | None = None,
-    # # back_ground: UploadFile | None = None,
+    # custom layers
+    foreground_file: UploadFile | None = None,
+    background_file: UploadFile | None = None,
     # fore_ground: str = Form(None),
     # back_ground: str = Form(None),
 ):
     print(await request.form())
+    with open("received_audio.mp3", "wb") as f:
+        f.write(audio_file.file.read())
+
+    with open("front.png", "wb") as f:
+        f.write(foreground_file.file.read())
+
+    with open("back.png", "wb") as f:
+        f.write(background_file.file.read())
     return
     # decode_cookie
     jwt_cookie = request.cookies.get("jwt")
