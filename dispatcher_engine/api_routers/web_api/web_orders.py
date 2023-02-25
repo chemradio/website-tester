@@ -4,10 +4,9 @@ import time
 from datetime import datetime, timedelta
 from pprint import pprint
 
-from fastapi import APIRouter, BackgroundTasks, Form, HTTPException, Request, UploadFile
-
 from api_routers.signal_sender import signal_to_services
 from db.sql_handler import db
+from fastapi import APIRouter, BackgroundTasks, Form, HTTPException, Request, UploadFile
 from processors.cleanup_order_assets import cleanup_order_assets
 from processors.orders import advance_order_stage
 from processors.save_user_file_to_volume import save_user_file_to_volume
@@ -29,26 +28,28 @@ router = APIRouter()
 @router.post("/add_order_web")
 async def add_order_web(
     request: Request,
-    background_tasks: BackgroundTasks,
-    status: str = Form(None),
-    request_type: str = Form(None),
-    stage: str = Form(None),
-    # link
-    link: str = Form(None),
-    # quote
-    quote_enabled: bool = Form(False),
-    quote_text: str = Form(None),
-    quote_author_text: str = Form(None),
-    # audio
-    audio_enabled: bool = Form(False),
-    # audio_name: UploadFile | None = None,
-    audio_name: str = Form(None),
-    # custom layers
-    # fore_ground: UploadFile | None = None,
-    # back_ground: UploadFile | None = None,
-    fore_ground: str = Form(None),
-    back_ground: str = Form(None),
+    # background_tasks: BackgroundTasks,
+    # status: str = Form(None),
+    # request_type: str = Form(None),
+    # stage: str = Form(None),
+    # # link
+    # link: str = Form(None),
+    # # quote
+    # quote_enabled: bool = Form(False),
+    # quote_text: str = Form(None),
+    # quote_author_text: str = Form(None),
+    # # audio
+    # audio_enabled: bool = Form(False),
+    # # audio_name: UploadFile | None = None,
+    # audio_name: str = Form(None),
+    # # custom layers
+    # # fore_ground: UploadFile | None = None,
+    # # back_ground: UploadFile | None = None,
+    # fore_ground: str = Form(None),
+    # back_ground: str = Form(None),
 ):
+    print(await request.form())
+    return
     # decode_cookie
     jwt_cookie = request.cookies.get("jwt")
     print(jwt_cookie)
@@ -80,6 +81,7 @@ async def add_order_web(
     pass
 
     form_dict["user_email"] = user_data["email"]
+    pprint(f"{form_dict=}")
     order_dict = vitaly_order_converter(form_dict)
     order = advance_order_stage(order_dict)
     order = db.add_order(**order_dict)
