@@ -4,7 +4,13 @@ import {Button, CircularProgress} from "@mui/material";
 
 const useStyles = makeStyles()(() => ({
   wrapper: {
-    position: 'relative'
+    margin: '15px 0',
+    position: 'relative',
+    backgroundColor: 'var(--button-background)',
+    color: 'var(--button-text-color)',
+    '&:hover': {
+      backgroundColor: 'var(--button-hover)'
+    }
   },
   buttonProgress: {
     position: 'absolute',

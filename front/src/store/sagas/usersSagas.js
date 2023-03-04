@@ -10,13 +10,13 @@ import {
   loginUserRequest,
   logOutRequest,
 } from "../actions/usersActions";
-import {UseHistoryPath} from "../../hooks/UseHistory";
+import {historyPush} from "../actions/historyActions";
 
 export function* registerUserSaga({payload: userData}) {
   try {
     const response = yield axiosApi.post('/users', userData)
     yield put(registerSuccess(response.data))
-    UseHistoryPath('/')
+    yield put(historyPush('/new'));
   } catch (e) {
     if (e.response && e.response.data) {
       yield put(registerFailure(e.response.data))
@@ -33,7 +33,7 @@ export function* loginUserSaga({ payload }) {
     if (payload) {
       Cookies.remove('jwt')
       response = yield axiosApi.post(`/users/sessions`, payload.userData)
-      UseHistoryPath('/')
+      yield put(historyPush('/new'));
     }
     yield put(loginUserSuccess(response.data))
 
@@ -49,7 +49,7 @@ export function* logoutUserSaga() {
     yield axiosApi.delete('users/sessions')
 
     yield Cookies.remove('jwt')
-    UseHistoryPath('/login')
+    yield put(historyPush('/login'));
   } catch (e) {
     console.log(e)
   }

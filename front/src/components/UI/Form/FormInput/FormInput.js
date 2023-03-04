@@ -1,7 +1,31 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
+import {makeStyles} from "tss-react/mui";
 
-const FormInput = ({ type, name, value, onChange, placeholder, required, error, multiline }) => (
+const FormInput = ({ type, name, value, onChange, placeholder, required, error, multiline }) => {
+    const useStyles = makeStyles()(() => ({
+        inputStyles: {
+            fontSize: '1rem',
+            lineHeight: '1.5',
+            color: '#495057',
+            backgroundColor: 'white',
+            margin: '0.375rem 0',
+            backgroundClip: 'padding-box',
+            padding: '0.375rem 0.75rem',
+            marginBottom: '30px',
+            borderRadius: '0.25rem',
+            height: multiline ? '70px' : '20px',
+            display: 'block',
+            width: '100%',
+            transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
+            '&:focus-visible': {
+                boxShadow: '0 0 0 0.2rem rgb(0 123 255 / 25%)'
+            }
+        }
+
+    }));
+    const { classes } = useStyles();
+    return (
         <>
             <input
                 type={type}
@@ -10,20 +34,12 @@ const FormInput = ({ type, name, value, onChange, placeholder, required, error, 
                 value={value}
                 onChange={onChange}
                 placeholder={error ? error : placeholder}
-                style={{
-                    color: 'var(--text-background-color)',
-                    backgroundColor: 'var(--background-color)',
-                    padding: '20px 10px',
-                    marginBottom: '30px',
-                    borderRadius: '20px',
-                    border: error ? '1px solid red' : 'none',
-                    boxShadow: '5px 5px 5px -5px rgba(34, 60, 80, 0.6) inset',
-                    maxWidth: '70%',
-                    height: multiline ? '70px' : '20px'
-                }}
+                className={classes.inputStyles}
+                style={{border: error ? '1px solid red' : '1px solid #6B0505'}}
             />
         </>
-    )
+    );
+};
 
 FormInput.propTypes = {
   required: PropTypes.bool,
@@ -33,6 +49,6 @@ FormInput.propTypes = {
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   error: PropTypes.string,
-}
+};
 
-export default FormInput
+export default FormInput;

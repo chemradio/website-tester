@@ -41,9 +41,9 @@ const New = () => {
                         <Grid container direction="column" spacing={2} alignItems="center">
                             <form
                                 onSubmit={e => submitFormHandler(e, dispatch(createDataRequest(submitFormDataHandler(data))))}
-                                  style={{width: '100%', display: 'flex', flexWrap: 'wrap', gap: '30px'}}
+                                  style={{width: '80%', display: 'flex', flexWrap: 'wrap', gap: '200px'}}
                             >
-                                <div style={{width: '50%', padding: '20px', display: 'flex', justifyContent: 'center'}}>
+                                <div style={{width: '40%', display: 'flex', justifyContent: 'center'}}>
                                     <FormInput
                                         required={true}
                                         type="text"
@@ -54,7 +54,7 @@ const New = () => {
                                     />
                                 </div>
 
-                                <div style={{width: '45%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '30px'}}>
+                                <div style={{width: '40%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '30px'}}>
                                     <Button
                                         variant="outlined"
                                         type="button"
