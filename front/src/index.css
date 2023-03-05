@@ -7,24 +7,24 @@ body, #root {
 html[data-theme="dark"] {
   --background-color: #191919;
   --background-card: #000000;
-  --text-background-color: white;
+  --text-background-color: #ffba33;
   --toll-bar-background: #040404;
   --toll-bar-border: 2px solid #404040;
   --toll-bar-border-hover: 2px solid #2D1996;
-  --button-background: #f05;
+  --button-background: #ffba33;
   --button-hover: #007bff;
-  --button-text-color: white;
+  --button-text-color: black;
   --logo-color: #ffba33;
 }
 
 html[data-theme="light"] {
   --background-color: #fdfafa;
   --background-card: white;
-  --text-background-color: black;
+  --text-background-color: #2D1996;
   --toll-bar-background: white;
   --toll-bar-border: 2px solid #ededed;
   --toll-bar-border-hover: 2px solid #ededed;
-  --button-background: #f05;
+  --button-background: #2D1996;
   --button-hover: #007bff;
   --button-text-color: white;
   --logo-color: #2D1996;

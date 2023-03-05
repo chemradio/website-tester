@@ -2,4 +2,5 @@
 div {
     background-color: var(--background-color);
     color: var(--text-background-color);
+    font-size: 20px;
 }

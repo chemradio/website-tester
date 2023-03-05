@@ -41,7 +41,7 @@ const New = () => {
                         <Grid container direction="column" spacing={2} alignItems="center">
                             <form
                                 onSubmit={e => submitFormHandler(e, dispatch(createDataRequest(submitFormDataHandler(data))))}
-                                  style={{width: '80%', display: 'flex', flexWrap: 'wrap', gap: '200px'}}
+                                  style={{width: '80%', display: 'flex', flexWrap: 'wrap', gap: '100px'}}
                             >
                                 <div style={{width: '40%', display: 'flex', justifyContent: 'center'}}>
                                     <FormInput
@@ -116,10 +116,8 @@ const New = () => {
                                         : null}
                                 </div>
                                         <Button
-                                            variant="contained"
-                                            color="secondary"
                                             type="submit"
-                                            style={{margin: '20px 0', position: 'fixed', bottom: '0', left: '0'}}
+                                            style={{margin: '20px 0', position: 'fixed', bottom: '0', left: '0', background: 'var(--button-background)', color: 'var(--button-text-color)'}}
                                         >
                                             Оформить заказ
                                         </Button>
@@ -222,7 +220,7 @@ const New = () => {
                                     variant="contained"
                                     color="secondary"
                                     type="submit"
-                                    style={{margin: '20px 0', position: 'fixed', bottom: '0', left: '0'}}
+                                    style={{margin: '20px 0', position: 'fixed', bottom: '0', left: '0', background: 'var(--button-background)', color: 'var(--button-text-color)'}}
                                 >
                                     Оформить заказ
                                 </Button>
