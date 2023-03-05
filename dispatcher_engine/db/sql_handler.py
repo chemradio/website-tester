@@ -1,12 +1,11 @@
 import os
 from typing import Optional
 
-from sqlalchemy import and_, create_engine, select
-from sqlalchemy.orm import sessionmaker
-
 import config
 from db.sqlalchemy_models import Base, Order, User
 from processors.password_hashing import generate_password_hash
+from sqlalchemy import and_, create_engine, select
+from sqlalchemy.orm import sessionmaker
 
 
 class SQLHandler:
@@ -18,7 +17,7 @@ class SQLHandler:
     def __init__(self) -> None:
         self.engine = create_engine(
             config.DB_CONNECTION_STRING,
-            echo=True,
+            echo=False,
             future=True,
         )
         self.Session = sessionmaker(self.engine)
@@ -61,10 +60,6 @@ class SQLHandler:
             user = self.find_user_by_telegram_id(user_telegram_id)
         elif user_email:
             user = self.find_user_by_email(user_email)
-
-        print(f"{__name__}:{user=}")
-        print(f"{__name__}:{user_telegram_id=}")
-        print(f"{__name__}:{user_email=}")
 
         with self.Session() as session:
             order = Order(

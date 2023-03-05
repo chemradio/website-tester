@@ -1,9 +1,11 @@
 import json
 import os
 from datetime import datetime, timedelta
-from sqlalchemy import create_engine, select, and_, or_
+
+from sqlalchemy import and_, create_engine, or_, select
 from sqlalchemy.orm import sessionmaker
-from .table_descriptions import Base, SystemEventLog, User, Order
+
+from .table_descriptions import Base, Order, SystemEventLog, User
 
 
 def timestamp_to_datetime(timestamp: int | float):
@@ -23,7 +25,7 @@ class SQLHandler:
 
         self.engine = create_engine(
             connection_string,
-            # echo=True,
+            echo=False,
             future=True,
         )
         self.Session = sessionmaker(self.engine)
